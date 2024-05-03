@@ -1490,6 +1490,10 @@ def main(args_in: list[str] | None = None) -> None:
     if args.no_vocab and args.vocab_only:
         raise ValueError("--vocab-only does not make sense with --no-vocab")
 
+    # see https://github.com/ggerganov/llama.cpp/issues/7021 
+    if "llama3" in str(args.model).replace('-','').lower():
+        raise NotImplementedError("llama-3 not currently implemented in convert.py, use `convert-hf-to-gguf.py` with llama-3 model from huggingface")
+
     if args.dump_single:
         model_plus = lazy_load_file(args.model)
         do_dump_model(model_plus)
